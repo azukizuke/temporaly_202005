@@ -2,7 +2,7 @@
 
 int main() {
     Schedule schedule(300);
-    //test insert
+    //test insert test
     schedule.setSchedule("000001010101", "テスト０");
     schedule.setSchedule("200011101210", "テスト１");
     schedule.setSchedule("200011101211", "テスト２");
