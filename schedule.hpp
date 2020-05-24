@@ -5,6 +5,10 @@
 #include <map>
 #include <string>
 #include <utility>
+#include <algorithm>
+#include <cctype>
+#include <codecvt>
+#include <locale>
 
 class Schedule {
     private:
@@ -15,12 +19,13 @@ class Schedule {
         //function
         std::string makeOutputString(auto input_iter);
         bool isScheduleMax();
-        bool isDateError(std::string date_index);
+        std::pair<bool, std::string> isDateError(std::string date_index);
         bool isMonthError(int month);
         bool isDayError(int year, int month, int day);
         bool isHourError(int hour);
         bool isMinuteError(int minute);
         bool isDetailError(std::string detail);
+        bool isLeapYear(int year);
 
     public:
         //function
