@@ -105,24 +105,31 @@ bool Schedule::setSchedule(const std::string date_index, const std::string detai
     bool is_date_error = pair_date_error.first;
     std::string string_date_error = pair_date_error.second;
     if (is_date_error) {
-        std::cout << date_index << " : ";
-        std::cout << detail;
-        std::cout << " : date is error. not insert : " << string_date_error << std::endl;
+        std::cerr << "[追加エラー]" << string_date_error;
+        std::cerr << "日程エラーのため本日程は追加しません";
+        std::cerr << "(";
+        std::cerr << date_index << " : ";
+        std::cerr << detail;
+        std::cerr << ")" << std::endl;
         return false;
     }
     // max schedule map check
     if (isScheduleMax()) {
-        std::cout << date_index << " : ";
-        std::cout << detail;
-        std::cout << " : schedule is max. not insert" << std::endl;
+        std::cerr << "[追加エラー]スケジュール数が最大のため追加ができません";
+        std::cerr << "(";
+        std::cerr << date_index << " : ";
+        std::cerr << detail;
+        std::cerr << ")" << std::endl;
         return false;
     }
 
     // detail error check
     if (isDetailError(detail)) {
-        std::cout << date_index << " : ";
-        std::cout << detail;
-        std::cout << " : detail over 256. not insert" << std::endl;
+        std::cerr << "[追加エラー]用件が256文字を超えているため本日程は追加致しません";
+        std::cerr << "(";
+        std::cerr << date_index << " : ";
+        std::cerr << detail;
+        std::cerr << ")" << std::endl;
         return false;
     }
     
@@ -132,32 +139,12 @@ bool Schedule::setSchedule(const std::string date_index, const std::string detai
     return true;
 }
 
-void Schedule::outputAllSchedule(){
-    std::cout << "display all schedule" << std::endl;
-    //rootin all element
-    for (auto iter = schedule_child_map_.cbegin(); iter != schedule_child_map_.cend(); ++iter) {
-        std::cout << makeOutputString(iter) << std::endl;
-    }
-}
-
-void Schedule::outputRangeSchedule(const std::string start_date, const std::string end_date){
-    std::cout << "display range schedule : " << start_date << "-" << end_date << std::endl;
+std::pair<std::multimap<std::string, std::string>::iterator, std::multimap<std::string, std::string>::iterator> Schedule::getRangeScheduleIter(std::string start_date, std::string end_date){
     auto lower_iter = schedule_child_map_.lower_bound(start_date);
     auto upper_iter = schedule_child_map_.upper_bound(end_date);
-    for (auto iter = lower_iter; iter != upper_iter; ++iter) {
-        std::cout << makeOutputString(iter) << std::endl;
-    }
+    return std::make_pair(lower_iter, upper_iter);
 }
 
-std::multimap<std::string, std::string> Schedule::getAllSchedule(){
-    return schedule_child_map_;
-}
-std::multimap<std::string, std::string> Schedule::getRangeSchedule(std::string start_date, std::string end_date){
-    std::multimap<std::string, std::string> range_schedule_map;
-    auto lower_iter = schedule_child_map_.lower_bound(start_date);
-    auto upper_iter = schedule_child_map_.upper_bound(end_date);
-    for (auto iter = lower_iter; iter != upper_iter; ++iter) {
-        range_schedule_map.insert(std::make_pair(iter->first, iter->second));
-    }
-    return range_schedule_map;
+int Schedule::getSize() {
+    return schedule_child_map_.size();
 }

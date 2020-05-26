@@ -12,22 +12,21 @@ auto_test.out: auto_test.o schedule.o view.o
 	$(CC) auto_test.o schedule.o view.o -o auto_test.out
 
 test.o: test.cpp
+	$(CC) test.hpp
 	$(CC) -c test.cpp
 
 manual_test.o: manual_test.cpp
+	$(CC) manual_test.hpp
 	$(CC) -c manual_test.cpp
 
 auto_test.o: auto_test.cpp
+	$(CC) auto_test.hpp
 	$(CC) -c auto_test.cpp
 
 schedule.o: schedule.cpp
+	$(CC) schedule.hpp
 	$(CC) -c schedule.cpp
 
 view.o: view.cpp
+	$(CC) view.hpp
 	$(CC) -c view.cpp
-
-test.cpp: test.hpp
-schedule.cpp: schedule.hpp
-manual_test.cpp: manual_test.hpp
-auto_test.cpp: auto_test.hpp
-view.cpp: view.hpp

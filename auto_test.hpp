@@ -7,6 +7,7 @@
 #include <chrono>
 #include <random>
 #include <map>
+#include <numeric>
 #include "schedule.hpp"
 #include "view.hpp"
 

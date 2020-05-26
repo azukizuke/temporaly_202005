@@ -1,4 +1,5 @@
 #include "manual_test.hpp"
+#include "view.hpp"
 
 bool insertPhase(Schedule& schedule) {
     std::string user_input_mode;
@@ -47,10 +48,11 @@ bool searchPhase(Schedule& schedule) {
                 std::cin >> user_input_start_date;
                 std::cout << "検索終了日時を入力してください" << std::endl;
                 std::cin >> user_input_end_date;
-                schedule.outputRangeSchedule(user_input_start_date ,user_input_end_date);
+                //schedule.outputRangeSchedule(user_input_start_date ,user_input_end_date);
+                outputSchedule(schedule.getRangeScheduleIter(user_input_start_date, user_input_end_date));
                 break;
             case 2:
-                schedule.outputAllSchedule();
+                outputSchedule(schedule.getRangeScheduleIter("000001010000", "999912312359"));
                 break;
             case 3:
                 return true;

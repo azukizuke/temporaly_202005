@@ -1,4 +1,5 @@
 #include "test.hpp"
+#include "view.hpp"
 
 int main() {
     Schedule schedule(300);
@@ -50,10 +51,8 @@ int main() {
     std::cout << "----test displey----" << std::endl;
     std::cout << std::endl;
 
-    //test display
-    schedule.outputAllSchedule();
-    schedule.outputRangeSchedule("202011140000","202011180000");
-    schedule.outputRangeSchedule("202011150305","202011150306");
-    schedule.outputRangeSchedule("202011150305","999912300000");
+    outputSchedule(schedule.getRangeScheduleIter("102011140000", "999999999999"));
+    //schedule.outputRangeSchedule("202011150305","202011150306");
+    //schedule.outputRangeSchedule("202011150305","999912300000");
     return 0;
 }
