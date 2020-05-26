@@ -99,32 +99,36 @@ bool Schedule::isDetailError(const std::string detail) {
 
 //public
 bool Schedule::setSchedule(const std::string date_index, const std::string detail) {
-    std::cout << date_index << " : ";
-    std::cout << detail;
 
     // check date error
     std::pair<bool, std::string> pair_date_error = isDateError(date_index);
     bool is_date_error = pair_date_error.first;
     std::string string_date_error = pair_date_error.second;
     if (is_date_error) {
+        std::cout << date_index << " : ";
+        std::cout << detail;
         std::cout << " : date is error. not insert : " << string_date_error << std::endl;
         return false;
     }
     // max schedule map check
     if (isScheduleMax()) {
+        std::cout << date_index << " : ";
+        std::cout << detail;
         std::cout << " : schedule is max. not insert" << std::endl;
         return false;
     }
 
     // detail error check
     if (isDetailError(detail)) {
+        std::cout << date_index << " : ";
+        std::cout << detail;
         std::cout << " : detail over 256. not insert" << std::endl;
         return false;
     }
     
     //success insert
     schedule_child_map_.insert(std::make_pair(date_index, detail));
-    std::cout << " : insert success" <<std::endl;
+    //std::cout << " : insert success" <<std::endl; //debug用途のための成功表示
     return true;
 }
 
@@ -143,4 +147,17 @@ void Schedule::outputRangeSchedule(const std::string start_date, const std::stri
     for (auto iter = lower_iter; iter != upper_iter; ++iter) {
         std::cout << makeOutputString(iter) << std::endl;
     }
+}
+
+std::multimap<std::string, std::string> Schedule::getAllSchedule(){
+    return schedule_child_map_;
+}
+std::multimap<std::string, std::string> Schedule::getRangeSchedule(std::string start_date, std::string end_date){
+    std::multimap<std::string, std::string> range_schedule_map;
+    auto lower_iter = schedule_child_map_.lower_bound(start_date);
+    auto upper_iter = schedule_child_map_.upper_bound(end_date);
+    for (auto iter = lower_iter; iter != upper_iter; ++iter) {
+        range_schedule_map.insert(std::make_pair(iter->first, iter->second));
+    }
+    return range_schedule_map;
 }
