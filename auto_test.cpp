@@ -70,7 +70,7 @@ void autoSearch(Schedule& schedule, int search_num){
 
 int main() {
     std::cout << "自動性能テスト" << std::endl;
-    Schedule schedule(1000000);
+    Schedule schedule(10000000);
     std::cout << "全要素数: 10" << std::endl;
     autoInsert(schedule, 10);
     autoSearch(schedule, 1);
