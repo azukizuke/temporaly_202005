@@ -38,7 +38,7 @@ std::string makeRandomDetail(){
 //Nパターンのスケジュールを新たに追加
 void autoInsert(Schedule& schedule, int schedule_num){
     for (int i = 0; i < schedule_num; i++) {
-        schedule.setSchedule(makeRandomDate(), "テストです");
+        schedule.setSchedule(makeRandomDate(), "性能テスト用用件");
     }
 }
 
@@ -51,6 +51,7 @@ void autoSearch(Schedule& schedule, int search_num){
     double exec_time;
     std::vector<double> exec_time_vector;
 
+    std::cout << "全要素数: " << schedule.getSize() << std::endl;
     //N回検索ルーチン
     for (int i = 0; i < search_num; i++) {
         //2つのランダムな日程を作成
@@ -60,7 +61,7 @@ void autoSearch(Schedule& schedule, int search_num){
         if (search_start_date > search_end_date) std::swap(search_start_date, search_end_date);
         //計測開始
         chrono_start = std::chrono::system_clock::now();
-        //検索実施。始点と終点のiteratorを結果として受け取る。iterator受け取るまでを経過時間。実際の表示は計測に含まない。
+        //検索実施。始点と終点のiteratorを結果として受け取る。iterator受け取るまでを経過時間。実際の表示は計測に含まない。また、出力もものすごい時間がかかるので本プログラムでは省略
         std::pair<std::multimap<std::string, std::string>::iterator, std::multimap<std::string, std::string>::iterator> iter_pair = schedule.getRangeScheduleIter(search_start_date, search_end_date);
         chrono_end = std::chrono::system_clock::now();
         exec_time = std::chrono::duration_cast<std::chrono::microseconds>(chrono_end-chrono_start).count();
@@ -68,46 +69,49 @@ void autoSearch(Schedule& schedule, int search_num){
         exec_time_vector.push_back(exec_time);
     }
     //最小時間と最大時間を出力
-    std::cout << "取得時間(最小値、最大値)(μs)：";
+    std::cout << "  検索時間(最小値、平均値、最大値)(μs)：";
     std::cout << *std::min_element(exec_time_vector.begin(), exec_time_vector.end());
     std::cout << ", ";
-    std::cout << *std::max_element(exec_time_vector.begin(), exec_time_vector.end()) << std::endl;
+    std::cout << std::accumulate(exec_time_vector.begin(), exec_time_vector.end(), 0) / exec_time_vector.size();
+    std::cout << ", ";
+    std::cout << *std::max_element(exec_time_vector.begin(), exec_time_vector.end()) << std::endl << std::endl;
 }
 
 int main() {
-    int test_num = 10;
+    int test_num = 10000;
 
-    std::cout << "自動性能テスト" << std::endl;
+    std::cout << "性能テスト" << std::endl;
+    std::cout << "各要素数の予定表に対してランダムな日程で" << test_num << "回検索を実施。最大時間と最小時間を出力" << std::endl;
     Schedule schedule(100000000);
 
+    //10
     autoInsert(schedule, 10);
-    std::cout << "全要素数: " << schedule.getSize() << std::endl;
     autoSearch(schedule, test_num);
 
+    //100
     autoInsert(schedule, 90);
-    std::cout << "全要素数: " << schedule.getSize() << std::endl;
     autoSearch(schedule, test_num);
 
+    //1000
     autoInsert(schedule, 900);
-    std::cout << "全要素数: " << schedule.getSize() << std::endl;
     autoSearch(schedule, test_num);
 
+    //10000
     autoInsert(schedule, 9000);
-    std::cout << "全要素数: " << schedule.getSize() << std::endl;
     autoSearch(schedule, test_num);
 
+    //100000
     autoInsert(schedule, 90000);
-    std::cout << "全要素数: " << schedule.getSize() << std::endl;
     autoSearch(schedule, test_num);
 
+    //1000000
     autoInsert(schedule, 900000);
-    std::cout << "全要素数: " << schedule.getSize() << std::endl;
     autoSearch(schedule, test_num);
 
-    //7桁はinsertに時間かかるので一旦コメントアウト
-    //std::cout << "全要素数: 10000000" << std::endl;
+    //10000000
+    //1千万はinsertに30分くらい時間かかるので一旦コメントアウト
     //autoInsert(schedule, 9000000);
-    //std::cout << "inserted" << std::endl;
-    //autoSearch(schedule, 1);
+    //autoSearch(schedule, test_num);
+    
     return 0;
 }

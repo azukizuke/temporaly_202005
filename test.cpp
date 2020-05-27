@@ -14,45 +14,60 @@ int main() {
     schedule.setSchedule("202501090109", "テスト７");
     schedule.setSchedule("202501090109", "テスト８");
     schedule.setSchedule("202501100110", "テスト９");
+    schedule.setSchedule("203011150307", "テスト１２");
     schedule.setSchedule("203011150306", "テスト１１");
     schedule.setSchedule("203011150305", "テスト１０");
-    schedule.setSchedule("203011150307", "テスト１２");
-    //border ok
-    schedule.setSchedule("999901111111", "成功、月、最小値");
-    schedule.setSchedule("999912111111", "成功、月、最大値");
-    schedule.setSchedule("999910011111", "成功、日、min");
-    schedule.setSchedule("999910311111", "成功、日、最大値");
-    schedule.setSchedule("999910100111", "成功、日、min");
-    schedule.setSchedule("999910312311", "成功、日、最大値");
-    schedule.setSchedule("999911302311", "成功、日、1130");
-    schedule.setSchedule("999902281111", "成功、日、0228");
-    schedule.setSchedule("888802291111", "成功、日、0229、leap");
-    schedule.setSchedule("880002291111", "成功、日、0229、400leap");
-    schedule.setSchedule("999910101100", "成功、分、min");
-    schedule.setSchedule("999910101159", "成功、分、最大値");
-    schedule.setSchedule("999902281111", "成功、要件文字数２５６文字あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ");
-    //err
-    schedule.setSchedule("999900140237", "エラー、月、00");
-    schedule.setSchedule("999913140237", "エラー、月、13");
-    schedule.setSchedule("999912000237", "エラー、日、00");
+    //日時入力の境界値テスト エラーのものがエラー出力されればOK
+    //年
+    schedule.setSchedule("000011111111", "成功、年、最小値");
+    schedule.setSchedule("888811111111", "成功、年、最大値");
+    //月
+    schedule.setSchedule("999900111111", "エラー、月、00");
+    schedule.setSchedule("888801111111", "成功、月、最小値");
+    schedule.setSchedule("888812111111", "成功、月、最大値");
+    schedule.setSchedule("999913111111", "エラー、月、13");
+    //日
+    schedule.setSchedule("999912001111", "エラー、日、00");
+    schedule.setSchedule("888812011111", "成功、日、最小値");
+    schedule.setSchedule("888812311111", "成功、日、最大値");
     schedule.setSchedule("999912320237", "エラー、日、32");
-    schedule.setSchedule("999911312311", "エラー、日、1131");
-    schedule.setSchedule("999902291111", "エラー、日、0229");
-    schedule.setSchedule("999912312413", "エラー、時、24");
+    //日 30日までの月
+    schedule.setSchedule("999911001111", "エラー、日、1100");
+    schedule.setSchedule("888811011111", "成功、日、最小値");
+    schedule.setSchedule("888811301111", "成功、日、1130");
+    schedule.setSchedule("999911311111", "エラー、日、1131");
+    //日 2月
+    schedule.setSchedule("888802281111", "成功、日、0228");
+    schedule.setSchedule("888802291111", "成功、日、0229、うるう年");
+    schedule.setSchedule("880002291111", "成功、日、0229、400倍数うるう年");
+    schedule.setSchedule("999902291111", "エラー、日、平年0229");
+    schedule.setSchedule("990002291111", "エラー、日、0229、閏年例外100倍数");
+    //時間
+    schedule.setSchedule("888811110011", "成功、時、最小値");
+    schedule.setSchedule("888811112311", "成功、時、最大値");
+    schedule.setSchedule("999911112411", "エラー、時、24");
+    //分
+    schedule.setSchedule("888811111100", "成功、分、最小値");
+    schedule.setSchedule("888811111159", "成功、分、最大値");
     schedule.setSchedule("999912310260", "エラー、分、60");
-    schedule.setSchedule("870002291111", "エラー、日、0229、閏年例外");
-    schedule.setSchedule("87000229111", "エラー、桁数不足");
-    schedule.setSchedule("870002291111123", "エラー、桁数超過");
-    schedule.setSchedule("87000229111a", "エラー、数値出ない文字が含まれる");
-    schedule.setSchedule("llllllllllll", "エラー、全部数値じゃない");
+    //用件
+    schedule.setSchedule("888802281111", "成功、要件文字数２５６文字あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ");
     schedule.setSchedule("999902281111", "エラー、要件文字数の超過あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ");
+    //その他入力誤り
+    schedule.setSchedule("99990229111", "エラー、桁数不足");
+    schedule.setSchedule("999902291111123", "エラー、桁数超過");
+    schedule.setSchedule("99990229111a", "エラー、数値出ない文字が含まれる");
+    schedule.setSchedule("abcdefghijkl", "エラー、全部数値じゃない");
 
     std::cout << std::endl;
-    std::cout << "----test displey----" << std::endl;
+    std::cout << "----test 全要素表示----(000001010000,999912312359での検索)" << std::endl;
     std::cout << std::endl;
 
-    outputSchedule(schedule.getRangeScheduleIter("102011140000", "999999999999"));
-    //schedule.outputRangeSchedule("202011150305","202011150306");
-    //schedule.outputRangeSchedule("202011150305","999912300000");
+    outputSchedule(schedule.getRangeScheduleIter("000001010000", "999912312359"));
+
+    std::cout << std::endl;
+    std::cout << "----test テスト6,7,8だけ検索表示----(入力20250108108、202501100109)" << std::endl;
+    outputSchedule(schedule.getRangeScheduleIter("202501080108", "202501100109"));
+    std::cout << std::endl;
     return 0;
 }

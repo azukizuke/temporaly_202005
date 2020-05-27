@@ -149,6 +149,7 @@ std::pair<std::multimap<std::string, std::string>::iterator, std::multimap<std::
     //入力日時範囲内の最低値と最大値のイテレータを取得、pairにして返す
     auto lower_iter = schedule_child_map_.lower_bound(start_date);
     auto upper_iter = schedule_child_map_.upper_bound(end_date);
+
     return std::make_pair(lower_iter, upper_iter);
 }
 

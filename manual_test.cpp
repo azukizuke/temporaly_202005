@@ -13,15 +13,15 @@ bool insertPhase(Schedule& schedule) {
         std::cout << "  3: テストプログラムを終了する" << std::endl;
         std::cin >> user_input_mode;
 
-        // 文字列など入力された際はstoiエラーを防ぐために一旦9に変更しswitch文を通過させ再入力させる
+        // 文字列など入力された際はstollエラーを防ぐために一旦9に変更しswitch文を通過させ再入力させる
         if (isInputModeError(user_input_mode)) user_input_mode = "9";
 
-        switch (stoi(user_input_mode)) {
+        switch (stoll(user_input_mode)) {
             case 1:
                 std::cout << std::endl;
                 std::cout << "日時YYYYMMDDhhmmを12桁の半角数字で入力してください" << std::endl;
                 std::cin >> user_input_date;
-                std::cout << "用件を全角文字列256文字以内で入力してください" << std::endl;
+                std::cout << "用件を256文字以内で入力してください" << std::endl;
                 std::cin >> user_input_detail;
                 schedule.setSchedule(user_input_date, user_input_detail);
                 break;
@@ -50,7 +50,7 @@ bool searchPhase(Schedule& schedule) {
         std::cout << "  4: テストプログラムを終了する" << std::endl;
         std::cin >> user_input_mode;
         if (isInputModeError(user_input_mode)) user_input_mode = "9";
-        switch (stoi(user_input_mode)) {
+        switch (stoll(user_input_mode)) {
             case 1:
                 std::cout << "検索開始日時を入力してください" << std::endl;
                 std::cin >> user_input_start_date;
@@ -103,7 +103,7 @@ int main() {
         std::cout << "半角数字にて入力してください" << std::endl;
     }
     std::cout << std::endl;
-    Schedule schedule(std::stoi(input_schedule_max));
+    Schedule schedule(std::stoll(input_schedule_max));
 
     //rootin
     while(true) {
