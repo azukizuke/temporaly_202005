@@ -9,14 +9,6 @@ Schedule::Schedule(const int input_max_schedule_num){
 }
 
 //private
-std::string Schedule::makeOutputString(const auto input_iter){
-    std::string output_string = "-";
-    output_string += input_iter->first;
-    output_string += " : ";
-    output_string += input_iter->second;
-    return output_string;
-}
-
 bool Schedule::isScheduleMax(){
     if (schedule_child_map_.size() == max_schedule_num_) {
         return true;
@@ -25,6 +17,7 @@ bool Schedule::isScheduleMax(){
     }
 }
 
+//入力日程の誤り判定。結果とエラー文字列のpairを返す
 std::pair<bool, std::string> Schedule::isDateError(const std::string date_index) {
     //index length check
     if (date_index.length() != 12) return std::make_pair(true, "length");
@@ -52,12 +45,11 @@ bool Schedule::isMonthError(int month) {
 bool Schedule::isDayError(int year, int month, int day) {
     switch (month) {
         case 2:
-            //Leap Year Februery
+            //うるう年
             if (isLeapYear(year)) {
                 if (day < 1 || day > 29) return true;
                 break;
             }
-            //Normal Year Februery
             if (day < 1 || day > 28) return true;
             break;
         case 4:
@@ -90,8 +82,8 @@ bool Schedule::isMinuteError(int minute) {
     return false;
 }
 
+//用件の文字数チェック。ワイド文字変換実施
 bool Schedule::isDetailError(const std::string detail) {
-    //convert multi byte
     std::wstring wstring_detail = std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(detail);
     if (wstring_detail.length() > 256) return true;
     return false;
@@ -139,6 +131,8 @@ bool Schedule::setSchedule(const std::string date_index, const std::string detai
     return true;
 }
 
+//検索の実施。範囲を入力し、開始時点と終了時点のイテレータを返却する
+//multimapの中身をここでいじると検索結果の要素数が処理時間に跳ねてしまうのでiteratorのみ返す
 std::pair<std::multimap<std::string, std::string>::iterator, std::multimap<std::string, std::string>::iterator> Schedule::getRangeScheduleIter(std::string start_date, std::string end_date){
     auto lower_iter = schedule_child_map_.lower_bound(start_date);
     auto upper_iter = schedule_child_map_.upper_bound(end_date);
