@@ -18,6 +18,9 @@ int main() {
     schedule.setSchedule("203011150306", "テスト１１");
     schedule.setSchedule("203011150305", "テスト１０");
     //日時入力の境界値テスト エラーのものがエラー出力されればOK
+    //最大日程、最小日程
+    schedule.setSchedule("000001010000", "成功、最小の日程");
+    schedule.setSchedule("999912312359", "成功、最大の日程");
     //年
     schedule.setSchedule("000011111111", "成功、年、最小値");
     schedule.setSchedule("888811111111", "成功、年、最大値");

@@ -81,7 +81,7 @@ int main() {
     int test_num = 10000;
 
     std::cout << "性能テスト" << std::endl;
-    std::cout << "各要素数の予定表に対してランダムな日程で" << test_num << "回検索を実施。最大時間と最小時間を出力" << std::endl;
+    std::cout << "各要素数の予定表に対してランダムな日程で" << test_num << "回検索を実施。最大時間と最小時間を出力" << std::endl << std::endl;
     Schedule schedule(100000000);
 
     //10

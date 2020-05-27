@@ -1,4 +1,4 @@
-CC = g++ -Wall -std=c11
+CC = g++ -Wall -std=c++14
 
 all: test.out manual_test.out auto_test.out
 
