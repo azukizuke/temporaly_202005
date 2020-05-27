@@ -20,19 +20,19 @@ bool Schedule::isScheduleMax(){
 //入力日程の誤り判定。結果とエラー文字列のpairを返す
 std::pair<bool, std::string> Schedule::isDateError(const std::string date_index) {
     //index length check
-    if (date_index.length() != 12) return std::make_pair(true, "length");
+    if (date_index.length() != 12) return std::make_pair(true, "[桁数誤り]");
     //not number check
-    if (!std::all_of(date_index.cbegin(), date_index.cend(), isdigit)) return std::make_pair(true, "not number");
+    if (!std::all_of(date_index.cbegin(), date_index.cend(), isdigit)) return std::make_pair(true, "[数値以外が含まれている]");
     //every date elemental check
     const int year = std::stoi(date_index.substr(0, 4));
     const int month = std::stoi(date_index.substr(4, 2));
     const int day = std::stoi(date_index.substr(6, 2));
     const int hour = std::stoi(date_index.substr(8, 2));
     const int minute = std::stoi(date_index.substr(10, 2));
-    if (isMonthError(month)) return std::make_pair(true, "month");
-    if (isDayError(year, month, day)) return std::make_pair(true, "day");
-    if (isHourError(hour)) return std::make_pair(true, "hour");
-    if (isMinuteError(minute)) return std::make_pair(true, "minute");
+    if (isMonthError(month)) return std::make_pair(true, "[存在しない月]");
+    if (isDayError(year, month, day)) return std::make_pair(true, "[存在しない日]");
+    if (isHourError(hour)) return std::make_pair(true, "[存在しない時間]");
+    if (isMinuteError(minute)) return std::make_pair(true, "[存在しない分]");
     return std::make_pair(false, "noerro");
 }
 
@@ -134,6 +134,19 @@ bool Schedule::setSchedule(const std::string date_index, const std::string detai
 //検索の実施。範囲を入力し、開始時点と終了時点のイテレータを返却する
 //multimapの中身をここでいじると検索結果の要素数が処理時間に跳ねてしまうのでiteratorのみ返す
 std::pair<std::multimap<std::string, std::string>::iterator, std::multimap<std::string, std::string>::iterator> Schedule::getRangeScheduleIter(std::string start_date, std::string end_date){
+    //入力日時のエラーチェック エラー時はmapの終端ポインタのpairを返す
+    std::pair<bool, std::string> pair_start_date_error = isDateError(start_date);
+    std::pair<bool, std::string> pair_end_date_error = isDateError(end_date);
+    if (pair_start_date_error.first) {
+        std::cerr << "[検索エラー]" << pair_start_date_error.second << "入力日時に誤りがあります : " << start_date << std::endl;
+        return std::make_pair(schedule_child_map_.end(), schedule_child_map_.end());
+    }
+    if (pair_end_date_error.first) {
+        std::cerr << "[検索エラー]" << pair_end_date_error.second << "入力終了日時に誤りがあります : " << end_date << std::endl;
+        return std::make_pair(schedule_child_map_.end(), schedule_child_map_.end());
+    }
+
+    //入力日時範囲内の最低値と最大値のイテレータを取得、pairにして返す
     auto lower_iter = schedule_child_map_.lower_bound(start_date);
     auto upper_iter = schedule_child_map_.upper_bound(end_date);
     return std::make_pair(lower_iter, upper_iter);
