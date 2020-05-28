@@ -1,6 +1,5 @@
 #include "schedule.hpp"
 
-//Constructor
 Schedule::Schedule() {
 }
 
@@ -8,7 +7,7 @@ Schedule::Schedule(const int input_max_schedule_num){
     max_schedule_num_ = input_max_schedule_num;
 }
 
-//private
+//予定が最大値かどうかの確認
 bool Schedule::isScheduleMax(){
     if (schedule_child_map_.size() == max_schedule_num_) {
         return true;
@@ -36,12 +35,15 @@ std::pair<bool, std::string> Schedule::isDateError(const std::string date_index)
     return std::make_pair(false, "noerro");
 }
 
+
+//月エラー確認
 bool Schedule::isMonthError(int month) {
     // 1 ~ 12 is ok
     if (month < 1 || month > 12) return true;
     return false;
 }
 
+//日エラー確認
 bool Schedule::isDayError(int year, int month, int day) {
     switch (month) {
         case 2:
@@ -65,6 +67,7 @@ bool Schedule::isDayError(int year, int month, int day) {
     return false;
 }
 
+//うるう年確認
 bool Schedule::isLeapYear(int year) {
     if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
         return true;
@@ -72,11 +75,14 @@ bool Schedule::isLeapYear(int year) {
     return false;
 }
 
+
+//時エラー確認
 bool Schedule::isHourError(int hour) {
     if (hour < 0 || hour > 23) return true;
     return false;
 }
 
+//分エラー確認
 bool Schedule::isMinuteError(int minute) {
     if (minute < 0 || minute > 59) return true;
     return false;
@@ -89,10 +95,10 @@ bool Schedule::isDetailError(const std::string detail) {
     return false;
 }
 
-//public
+//スケジュール挿入
 bool Schedule::setSchedule(const std::string date_index, const std::string detail) {
 
-    // check date error
+    //日時エラー確認。エラーの場合は追加なし 
     std::pair<bool, std::string> pair_date_error = isDateError(date_index);
     bool is_date_error = pair_date_error.first;
     std::string string_date_error = pair_date_error.second;
@@ -105,7 +111,8 @@ bool Schedule::setSchedule(const std::string date_index, const std::string detai
         std::cerr << ")" << std::endl;
         return false;
     }
-    // max schedule map check
+
+    //スケジュール数最大確認。最大の場合は追加なし
     if (isScheduleMax()) {
         std::cerr << "[追加エラー]スケジュール数が最大のため追加ができません";
         std::cerr << "(";
@@ -115,7 +122,7 @@ bool Schedule::setSchedule(const std::string date_index, const std::string detai
         return false;
     }
 
-    // detail error check
+    //用件の文字数確認
     if (isDetailError(detail)) {
         std::cerr << "[追加エラー]用件が256文字を超えているため本日程は追加致しません";
         std::cerr << "(";
@@ -125,9 +132,8 @@ bool Schedule::setSchedule(const std::string date_index, const std::string detai
         return false;
     }
     
-    //success insert
+    //追加実施
     schedule_child_map_.insert(std::make_pair(date_index, detail));
-    //std::cout << " : insert success" <<std::endl; //debug用途のための成功表示
     return true;
 }
 
@@ -153,6 +159,7 @@ std::pair<std::multimap<std::string, std::string>::iterator, std::multimap<std::
     return std::make_pair(lower_iter, upper_iter);
 }
 
+//現状のスケジュールサイズget
 int Schedule::getSize() {
     return schedule_child_map_.size();
 }

@@ -109,7 +109,7 @@ int main() {
     autoSearch(schedule, test_num);
 
     //10000000
-    //1千万はinsertに30分くらい時間かかるので一旦コメントアウト
+    //1千万は準備のinsertに30分くらい時間かかるのでコメントアウト
     //autoInsert(schedule, 9000000);
     //autoSearch(schedule, test_num);
     

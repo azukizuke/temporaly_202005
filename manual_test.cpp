@@ -1,6 +1,7 @@
 #include "manual_test.hpp"
 #include "view.hpp"
 
+//予定挿入のルーチン
 bool insertPhase(Schedule& schedule) {
     std::string user_input_mode;
     std::string user_input_date;
@@ -37,6 +38,8 @@ bool insertPhase(Schedule& schedule) {
         }
     }
 }
+
+//予定検索のルーチン
 bool searchPhase(Schedule& schedule) {
     std::string user_input_mode;
     std::string user_input_start_date;
@@ -83,7 +86,7 @@ bool searchPhase(Schedule& schedule) {
     return true;
 }
 
-//入力は1桁数字のみ想定。2桁以上またはdigit出ない場合はtrue
+//モード設定の入力エラー検知。数値以外はstoiエラー起こすので検知
 bool isInputModeError(std::string input) {
     if (!std::all_of(input.cbegin(), input.cend(), isdigit)) {
         return true;

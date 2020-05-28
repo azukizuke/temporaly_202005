@@ -37,9 +37,6 @@ class Schedule {
         std::multimap<std::string, std::string> getAllSchedule();
         std::multimap<std::string, std::string> getRangeSchedule(std::string start_date, std::string end_date);
         std::pair<std::multimap<std::string, std::string>::iterator, std::multimap<std::string, std::string>::iterator> getRangeScheduleIter(std::string start_date, std::string end_date);
-        //下記２つは削除する output内包しているもののため
-        void outputAllSchedule();
-        void outputRangeSchedule(std::string start_date, std::string end_date);
 };
 
 
